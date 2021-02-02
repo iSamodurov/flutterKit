@@ -1,6 +1,6 @@
 # flutterKit
 
-A new Flutter project.
+Basic setup for flutter development
 
 ## Getting Started
 

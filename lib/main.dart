@@ -1,11 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutterKit/models/app_settings_model.dart';
+import 'package:flutter_translate/flutter_translate.dart';
+import 'package:provider/provider.dart';
 import 'app.dart';
+import 'config.dart';
 
+void main() async {
 
-void main() {
-  runApp(App());
+  var delegate = await LocalizationDelegate.create(
+    fallbackLocale: config['FALLBACK_LOCALE'],
+    supportedLocales: config['SUPPORTED_LOCALES'],
+  );
+
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => AppSettingsModel()),
+      ],
+      child: LocalizedApp(delegate, App()),
+    ),
+  );
 }
-
-
-
-
