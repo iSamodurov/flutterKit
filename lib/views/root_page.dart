@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterKit/mixins/loader_mixin.dart';
 import 'package:flutterKit/ui/helpers/custom_overlay.dart';
 import 'package:flutterKit/ui/modals/lost_connection_overlay.dart';
+import 'package:flutterKit/views/preloader/preloader_screen.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 
 
@@ -13,7 +15,7 @@ class RootPage extends StatefulWidget {
 
 
 
-class _RootPageState extends State<RootPage> {
+class _RootPageState extends State<RootPage> with Loading {
   StreamSubscription<ConnectivityResult> connectionStream;
   CustomOverlay alertOverlay;
 
@@ -47,15 +49,22 @@ class _RootPageState extends State<RootPage> {
 
   @override
   void initState() {
+    setLoading(true);
     super.initState();
     _createConnectionAlertModal(context);
     _checkConnectionOnInit(context);
     _listenConnection(context);
+
+    // TODO: Remove demo code
+    Future.delayed(Duration(seconds: 3), () {
+      setLoading(false);
+    });
   }
 
 
   @override
   Widget build(BuildContext context) {
+    if (loading) return PreloaderScreen();
     return Scaffold(
       appBar: AppBar(title: Text(translate('app_name'))),
       body: Container(),
